@@ -1,10 +1,11 @@
 const Game = require("../model/game")
+const GameService = require("../services/gameService")
 
 class GameController {
     static index = async(req, res, next) => {
 
         try {
-            const data = await Game.getGames(next)
+            const data = await GameService.get_all_games(next)
             res.status(200).json(data)
         }catch(err) {
             next(err)
@@ -15,7 +16,12 @@ class GameController {
         const id = req.params.id
         try {
             const data = await Game.getGameById(id, next)
-            res.status(200).json(data)
+            
+            if(!data) {
+                next({name: "notFound"})
+            } else {
+              res.status(200).json(data)
+            }
         } catch(err) {
             next(err)
         }

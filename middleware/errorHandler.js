@@ -3,6 +3,8 @@ const errorHandler = (err, req, res, next) => {
 
     if(err.name == 'paramsError') {
         res.status(400).json({message: "need name and publisher params"})
+    } else if(err.name == 'notFound') {
+        res.status(404).json({message: "game not found"})
     } else {
         res.status(500).json({message: "internal server error"})
     }
